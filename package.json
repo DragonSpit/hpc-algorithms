@@ -1,17 +1,26 @@
 {
-  "name": "hpc-js",
+  "name": "hpc-algorithms",
   "version": "1.0.0",
-  "description": "High Performance Computing Algorithms in Javascript",
-  "main": "hello.js",
+  "description": "High Performance Computing Algorithms",
+  "main": "RadixSort.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Victor J. Duvanenko",
-  "repository": "https://github.com/DragonSpit/hpc-js",
+  "repository": {
+	"type": "git",
+	"url": "https://github.com/DragonSpit/hpc-js"
+  },
+  "bugs": {
+	"email": "vduvanenko1@gmail.com"
+  },
   "license": "Apache 2.0",
   "keywords": [
     "sorting",
     "sort",
+	"fast sort",
+	"fast sorting",
+	"faster sorting",
     "radix sort",
     "algorithm",
 	"algorithms",

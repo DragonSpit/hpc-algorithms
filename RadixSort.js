@@ -20,7 +20,7 @@ HPCjs.Algorithm = (function()
 	
 	// Sorts an array of unsigned integers only
 	// Be careful as Javascript has only the notion of a number and not unsigned integer, signed integer, floating-point, double, decimal, etc.
-	var sortRadixLsd = function(_input_array)
+	var sortRadixLsdUnsigned = function(_input_array)
 	{
 		if (typeof _input_array.constructor === Array && typeof _input_array[0] === "number") throw new TypeError("Input argument must be an array of unsigned integers");
 		var numberOfBins = 256;
@@ -63,7 +63,7 @@ HPCjs.Algorithm = (function()
 	
 	// Sorts an array of user define classes based on an unsigned integer keys only
 	// Be careful as Javascript has only the notion of a number and not unsigned integer, signed integer, floating-point, double, decimal, etc.
-	var sortRadixLsd = function(_input_array, getKey)
+	var sortRadixLsdUserUnsigned = function(_input_array, getKey)
 	{
 		var numberOfBins = 256;
 		var Log2ofPowerOfTwoRadix = 8;
@@ -99,6 +99,7 @@ HPCjs.Algorithm = (function()
 	
     return {
         //someProperty: 'prop value',
-        sortRadixLsd: sortRadixLsd
+        sortRadixLsd: sortRadixLsdUnsigned,
+		sortRadixLsdUser: sortRadixLsdUserUnsigned
     };
 })();
