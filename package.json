@@ -1,6 +1,6 @@
 {
   "name": "hpc-algorithms",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "High Performance Computing Algorithms",
   "main": "RadixSort.js",
   "scripts": {
@@ -18,15 +18,15 @@
   "keywords": [
     "sorting",
     "sort",
-	  "fast sort",
-	  "fast sorting",
-	  "faster sorting",
+	"fast sort",
+	"fast sorting",
+	"faster sorting",
     "radix sort",
     "algorithm",
-	  "algorithms",
-	  "high performance",
-    "high performance computing",
-    "fast algorithm",
-    "faster algorithm"
+	"algorithms",
+	"fast algorithm",
+	"faster algorithms",
+	"high performance",
+	"high performance computing"
   ]
 }
