@@ -1,5 +1,7 @@
-// TODO: It may be faster to do shift-mask instead of the current mask-shift, since the mask would then be the same (0xff).
+// TODO: It may be faster to do shift-mask instead of the current mask-shift, since the mask would then be the same for all bytes (0xff).
 // TODO: Remove extract digit function and just inline the core code. I've seem this improve performance in C#. Not sure how agressively JavaScript inlines small functions.
+// TODO: Compare performance versus TimSort for random, pre-sorted and constant, since TimSort is available in JavaScript thru npm
+//       (https://stackoverflow.com/questions/40721767/what-is-the-fastest-way-to-sort-a-largeish-array-of-numbers-in-javascript)
 
 var HpcAlgorithms = HpcAlgorithms || {};
 
@@ -27,7 +29,7 @@ HpcAlgorithms.Sorting = (function()
 	 * @param  {Array of numbers} inputArray Array of numbers, which must be unsigned integers of values within 32-bits
 	 * @return {Array of numbers} Sorted array of numbers
 	 */
-	var RadixSortLsdUInt32 = function(inputArray)
+	var RadixSortLsdUInt32_old = function(inputArray)
 	{
 		if (typeof inputArray.constructor === Array && typeof inputArray[0] === "number") throw new TypeError("Input argument must be an array of unsigned integers");
 		var numberOfBins = 256;
@@ -97,46 +99,45 @@ HpcAlgorithms.Sorting = (function()
 	 * @param  {Array of numbers} inputArray Array of numbers, which must be unsigned integers of values within 32-bits
 	 * @return {Array of numbers} Sorted array of numbers
 	 */
-	var RadixSortLsdUInt32_new = function(inputArray)
+	var RadixSortLsdUInt32 = function(inputArray)
 	{
-	  if (typeof inputArray.constructor === Array && typeof inputArray[0] === "number") throw new TypeError("Input argument must be an array of unsigned integers");
-	  var numberOfBins = 256;
-	  var numberOfDigits = 4;
-	  var Log2ofPowerOfTwoRadix = 8;
-	  var outputArrayHasResult = false;
-	  var bitMask = 255;
-	  var shiftRightAmount = 0;
-	  var outputArray = new Array(inputArray.length);
-	
-	  var count = HistogramByteComponents(inputArray, 0, inputArray.length - 1);
-	
-	  var startOfBin = new Array(numberOfDigits);
-	  var d = 0;
-	  for (d = 0; d < numberOfDigits; d++)
-	  {
-		startOfBin[d] = new Array(numberOfBins);
-		startOfBin[d][0] = 0;
-		for (var b = 1; b < numberOfBins; b++ )
-		  startOfBin[d][b] = startOfBin[d][b - 1] + count[d][b - 1];
-	  }
-	
-	  d = 0;
-	  while( bitMask != 0 ) // end processing digits when all the mask bits have been processed and shifted out, leaving no bits set in the bitMask
-	  {
-		//console.log('d: ' + d);
-		var startOfBinLoc = startOfBin[d];
-		for ( var current = 0; current < inputArray.length; current++ )
-		  outputArray[ startOfBinLoc[ extractDigit( inputArray[ current ], bitMask, shiftRightAmount ) ]++ ] = inputArray[ current ];
-	 
-		bitMask <<= Log2ofPowerOfTwoRadix;
-		shiftRightAmount += Log2ofPowerOfTwoRadix;
-		outputArrayHasResult = !outputArrayHasResult;
-		d++;
-	 
-		var tmp = inputArray, inputArray = outputArray, outputArray = tmp; // swap input and output arrays
-	  }
-	 
-	  return outputArrayHasResult ? outputArray : inputArray;;
+		if (typeof inputArray.constructor === Array && typeof inputArray[0] === "number") throw new TypeError("Input argument must be an array of unsigned integers");
+		var numberOfBins = 256;
+		var numberOfDigits = 4;
+		var Log2ofPowerOfTwoRadix = 8;
+		var outputArrayHasResult = false;
+		var bitMask = 255;
+		var shiftRightAmount = 0;
+		var outputArray = new Array(inputArray.length);
+
+		var count = HistogramByteComponents(inputArray, 0, inputArray.length - 1);
+
+		var startOfBin = new Array(numberOfDigits);
+		var d = 0;
+		for (d = 0; d < numberOfDigits; d++)
+		{
+			startOfBin[d] = new Array(numberOfBins);
+			startOfBin[d][0] = 0;
+			for (var b = 1; b < numberOfBins; b++ )
+			startOfBin[d][b] = startOfBin[d][b - 1] + count[d][b - 1];
+		}
+
+		d = 0;
+		while( bitMask != 0 ) // end processing digits when all the mask bits have been processed and shifted out, leaving no bits set in the bitMask
+		{
+			var startOfBinLoc = startOfBin[d];
+			for ( var current = 0; current < inputArray.length; current++ )
+			outputArray[ startOfBinLoc[ (inputArray[ current ] & bitMask) >>> shiftRightAmount ]++ ] = inputArray[ current ];
+		
+			bitMask <<= Log2ofPowerOfTwoRadix;
+			shiftRightAmount += Log2ofPowerOfTwoRadix;
+			outputArrayHasResult = !outputArrayHasResult;
+			d++;
+		
+			var tmp = inputArray, inputArray = outputArray, outputArray = tmp; // swap input and output arrays
+		}
+		
+		return outputArrayHasResult ? outputArray : inputArray;;
 	}
 		
 	/**
@@ -182,7 +183,6 @@ HpcAlgorithms.Sorting = (function()
     return {
         //someProperty: 'prop value',
         RadixSortLsdUInt32: RadixSortLsdUInt32,
-        RadixSortLsdUInt32_new: RadixSortLsdUInt32_new,
 		RadixSortLsdUdtUInt32: RadixSortLsdUdtUInt32
     };
 })();
