@@ -8,11 +8,9 @@ Let us know what other algorithms could use acceleration or improvement.
 Faster and Better Algorithms, starting with high performance sorting:
 - LSD Radix Sort for unsigned integer arrays. 20-30X faster than JavaScript's built-in array sort for arrays less than 35 Million.
 5-10X faster for arrays greater than 35 Million. This sort algorithm is not in-place, returning a new sorted array.
-Discussion, benchmarks and example in https://duvanenko.tech.blog/2017/06/15/faster-sorting-in-javascript/
-- LSD Radix Sort for arrays of user defined classes by an unsigned integer key. This is a stable sort,
-while JavaScript built-in is not stable.
-Discussion, benchmarks and example in https://duvanenko.tech.blog/2017/07/10/sorting-arrays-of-objects-in-javascript-with-radix-sort/
-
-Even higher performance coming soon for both of these algorithms, with support for more data types.
+Discussion, benchmarks and usage in https://duvanenko.tech.blog/2017/06/15/faster-sorting-in-javascript/
+- LSD Radix Sort for arrays of objects by an unsigned integer key. 15X faster than JavaScript's built-in .sort().
+This is a stable sort, while JavaScript built-in is not stable. This sort algorithm is not in-place, returning a new sorted array.
+Discussion, benchmarks and usage in https://duvanenko.tech.blog/2017/07/10/sorting-arrays-of-objects-in-javascript-with-radix-sort/
 
 If you have a specific needs for higher performance algorithms, let us know.
