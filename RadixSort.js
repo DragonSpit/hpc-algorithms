@@ -1,6 +1,14 @@
 // TODO: Remove extract digit function and just inline the core code. I've seen this improve performance in C#. Not sure how agressively JavaScript inlines small functions.
 // TODO: Compare performance versus TimSort for random, pre-sorted and constant, since TimSort is available in JavaScript thru npm
 //       (https://stackoverflow.com/questions/40721767/what-is-the-fastest-way-to-sort-a-largeish-array-of-numbers-in-javascript)
+// TODO: Compare performance with the following:
+// 		 var numArray = new Uint32Array([140000, 104, 99]);
+//		 numArray = numArray.sort();
+//		 alert(numArray)
+// TODO: Consider handling these cases as JavaScript .sort does
+//       array = [3, 5, -1, 1, NaN, 6, undefined, 2, null]
+//       array.sort((a,b) => isNaN(a) || a-b)
+//       [-1, null, 1, 2, 3, 5, 6, NaN, undefined]
 
 var HpcAlgorithms = HpcAlgorithms || {};
 

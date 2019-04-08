@@ -13,9 +13,21 @@ Discussion, benchmarks and usage in https://duvanenko.tech.blog/2017/06/15/faste
 This is a stable sort, while JavaScript built-in is not stable. This sort algorithm is not in-place, returning a new sorted array.
 Discussion, benchmarks and usage in https://duvanenko.tech.blog/2017/07/10/sorting-arrays-of-objects-in-javascript-with-radix-sort/
 
-When you benchmark these algorithms keep in mind that for the first one or two runs a basic JavaScript compiler is used, providing fast
-time to start up and to give time for the full optimizing compiler to run. After these two runs optimized code starts being used,
-revealing the full performance of LSD Radix Sort. See https://blog.sessionstack.com/how-javascript-works-inside-the-v8-engine-5-tips-on-how-to-write-optimized-code-ac089e62b12e
+When you benchmark these algorithms keep in mind that for the first few runs the basic JavaScript JIT compiler is used, providing fast
+start up time and giving time for the optimizing compiler to run. After these few runs the optimized code starts being used,
+revealing the full performance of LSD Radix Sort algorithms. See https://blog.sessionstack.com/how-javascript-works-inside-the-v8-engine-5-tips-on-how-to-write-optimized-code-ac089e62b12e
 for more details about the JIT engine in Chrome.
 
-If you have a specific needs for higher performance algorithms, let us know.
+# Examples
+
+```javascript
+function simpleUsageExampleOfRadixSortLSD() {
+    var arrayToBeSorted = [ 99, 1999999999, 51, 23, 102];
+    var sortedArray = HpcAlgorithms.Sorting.RadixSortLsdUInt32(arrayToBeSorted);
+    for ( var _current = 0; _current < sortedArray.length; _current++ ) {
+        console.log(sortedArray[_current]);
+    }
+}
+```
+
+If you have other specific needs for higher performance algorithms, let us know.
