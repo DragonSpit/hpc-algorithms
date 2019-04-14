@@ -186,10 +186,10 @@ HpcAlgorithms.Sorting = (function()
 	
 		return outputArrayHasResult ? outputArray : inputArray;
 	}
-		
-    return {
-        //someProperty: 'prop value',
-        RadixSortLsdUInt32: RadixSortLsdUInt32,
+
+	return {
+		//someProperty: 'prop value',
+		RadixSortLsdUInt32: RadixSortLsdUInt32,
 		RadixSortLsdUdtUInt32: RadixSortLsdUdtUInt32
-    };
+	};
 })();
